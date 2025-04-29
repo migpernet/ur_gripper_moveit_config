@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: trajectory_pkg
+    relative_path: urdf/ur5_traj_gripper.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/ur5_robot.srdf
+  CONFIG:
+    author_name: Miguel
+    author_email: miguel@ifba.edu.br
+    generated_timestamp: 1736827255
