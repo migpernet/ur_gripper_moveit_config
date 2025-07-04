@@ -641,7 +641,7 @@
     <transmission name="trans_robotiq_85_right_knuckle_joint">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="robotiq_85_right_knuckle_joint">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>  
         </joint>
         <actuator name="robotiq_85_right_knuckle_joint_motor">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>

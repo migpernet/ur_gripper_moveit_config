@@ -1,5 +1,7 @@
 <launch>
 
+  <include file="$(find ur_gripper_moveit_config)/launch/sensor_manager.launch.xml" />
+
   <!-- specify the planning pipeline -->
   <arg name="pipeline" default="ompl" />
 

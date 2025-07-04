@@ -1,2 +1,56 @@
 sensors:
-  []
+  - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+    point_cloud_topic: /camera/depth/color/points
+    max_range: 5.0 # Maximum range for points to be considered (meters)
+    point_subsample: 1 # Subsample factor for the point cloud (1 means no subsampling)
+    padding_offset: 0.1 # Additional padding for collision checking (meters)
+    padding_scale: 1.0 # Scale factor for padding
+    max_update_rate: 1.0
+    filtered_cloud_topic: filtered_cloud
+
+    # --- Crucial: Self-See Filter (Ignore points on the robot itself) ---
+    self_see_filter:
+      # This is a critical filter that tells MoveIt! to ignore parts of the point cloud
+      # that correspond to the robot's own body.
+      # You need to specify the links that the camera is attached to or that are near the camera.
+      # The 'camera_link' is usually a good starting point.
+      # You might need to list several links of your UR5 arm that the camera can "see".
+      # Example links (adjust based on your URDF):
+      robot_links:
+        - tool0                 # If camera is attached to tool0
+        - wrist_3_link          # Links near the camera
+        - wrist_2_link
+        - wrist_1_link
+        - elbow_link
+        # Add more links as needed based on where your camera is mounted and what it sees.
+        # You can get a list of links using 'rosparam get /robot_description' and inspecting it,
+        # or looking at your URDF files.
+
+      # These ranges define the region around the robot links where points are filtered out.
+      # Adjust 'min_range' if the camera is very close to a link.
+      # Adjust 'max_range' to cover the extent of the robot's body visible to the camera.
+      min_range: 0.01   # Ignore points very close to the link (e.g., inside the camera housing)
+      max_range: 0.8    # Filter points up to 80cm from the robot link (adjust this carefully!)
+
+    # --- Optional: Box Filters (Ignore static parts of the environment like the table) ---
+    # These filters remove points within a specified bounding box.
+    # You need to define the 'box_frame' (usually 'world' or 'base_link') and the dimensions/position
+    # of the box that covers your table.
+    # To get accurate coordinates:
+    # 1. Spawn your robot and table in Gazebo.
+    # 2. Open RViz, add a "Pose" display, and interactively move it to estimate the table's corners.
+    # 3. Measure the table's dimensions.
+    # 4. Convert these to 'center_x, center_y, center_z' and 'size_x, size_y, size_z'.
+    # Example for a table (ADJUST THESE VALUES FOR YOUR SETUP!):
+    # box_filters:
+    #    - box_frame: world # Or 'base_link' if table coordinates are relative to robot base
+    #    - box_x: 0.5       # Center X of the box
+    #    - box_y: 0.0       # Center Y of the box
+    #    - box_z: 0.4       # Center Z of the box (half the table height)
+    #    - box_size_x: 1.2  # Length of the table
+    #    - box_size_y: 0.8  # Width of the table
+    #    - box_size_z: 1.025  # Height of the table (if it's 0.8m tall, center at 0.4)
+    
+    
+    
+    

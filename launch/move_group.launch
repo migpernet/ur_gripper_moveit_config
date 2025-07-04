@@ -1,5 +1,7 @@
 <launch>
 
+  <include file="$(find ur_gripper_moveit_config)/launch/sensor_manager.launch.xml" />
+
   <!-- GDB Debug Option -->
   <arg name="debug" default="false" />
   <arg unless="$(arg debug)" name="launch_prefix" value="" />
